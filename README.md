@@ -1,4 +1,5 @@
 # snip_gen
+
 Generate code snippets to maximize code coverage thanks to the power of LLMs
 
 ## Installation
@@ -17,7 +18,6 @@ This utility is composed of three commands:
 - `coverage`: Analyze coverage data.
 - `seed`: The main command, leverage coverage data to select the files to generate
   snippets for.
-
 
 ## Customization
 
@@ -45,7 +45,6 @@ Any LLM model suported by [LiteLLM](https://docs.litellm.ai/) can be used with t
 
 To do so, you simply need to change the `MODELHINT` and `LITELLM_MODELS`
 constants in `snip_gen/__init__.py`.
-
 
 ## Special thanks
 

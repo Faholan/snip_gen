@@ -1,16 +1,12 @@
 [project]
+authors = [{ name = "Faholan" }, { name = "toby-bro" }]
 name = "snip-gen"
 version = "1.0.0"
 description = "Generate code snippets to maximize code coverage thanks to the power of LLMs"
-authors = [
-    {name = "Faholan"}
-]
-license = {text = "MIT"}
+license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "litellm (>=1.74.3,<2.0.0)"
-]
+dependencies = ["litellm (>=1.74.3,<2.0.0)"]
 
 [tool.poetry]
 
@@ -21,3 +17,131 @@ ruff = "^0.12.3"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+strict = true
+show_error_context = true
+show_column_numbers = true
+pretty = true
+files = "*.py"
+
+[tool.ruff]
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "venv",
+]
+line-length = 120
+indent-width = 4
+target-version = "py312"
+preview = true
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "A",     # flake8-builtins
+    "AIR",   # Airflow
+    "ANN",   # flake8-annotations
+    "ARG",   # flake8-unused-arguments
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "BLE",   # flake8-blind-except
+    "COM",   # flake8-commas
+    # "CPY", # flake8-copyright
+    "C4",   # flake8-comprehensions
+    "C90",  # mccabe
+    "D",    # pydocstyle
+    "DJ",   # flake8-django
+    "DOC",  # pydoclint
+    "DTZ",  # flake8-datetimez
+    "E",    # pycodestyle
+    "EM",   # flake8-errmsg
+    "ERA",  # eradicate
+    "EXE",  # flake8-executable
+    "F",    # pyflakes
+    "FA",   # flake8-future-annotations
+    "FAST", # FastAPI
+    "FBT",  # flake8-boolean-trap
+    "FIX",  # flake8-fixme
+    "FLY",  # flynt
+    "FURB", # refurb
+    "G",    # flake8-logging-format
+    "I",    # isort
+    "ICN",  # flake8-import-conventions
+    "INP",  # flake8-no-pep420
+    "INT",  # flake8-gettext
+    "ISC",  # flake8-implicit-str-concat
+    "LOG",  # flake8-logging
+    "N",    # pep8-naming
+    "NPY",  # NumPy-specific rules
+    "PD",   # pandas-vet
+    "PERF", # Perflint
+    "PGH",  # pygrep-hooks
+    "PIE",  # flake8-pie
+    "PL",   # Pylint
+    "PT",   # flake8-pytest-style
+    "PTH",  # flake8-use-pathlib
+    "PYI",  # flake8-pyi
+    "Q",    # flake8-quotes
+    "RET",  # flake8-return
+    "RSE",  # flake8-raise
+    "RUF",  # ruff-specific rules
+    "S",    # flake8-bandit
+    "SIM",  # flake8-simplify
+    "SLF",  # flake8-self
+    "SLOT", # flake8-slots
+    "TC",   # flake8-type-checking
+    "TD",   # flake8-todos
+    "TID",  # flake8-tidy-imports
+    "TRY",  # tryceratops
+    "T10",  # flake8-debugger
+    "T20",  # flake8-print
+    "UP",   # pyupgrade
+    "W",    # pycodstyle
+    "YTT",  # flake8-2020
+]
+ignore = [
+    "COM812", # missing-trailing-comma
+    "D203",   # one-blank-line-before-class-docstring
+    "D213",   # multi-line-summary-second-line
+    # TODO: re-enable the docstring
+    "DOC201", # docstring-missing-returns
+    "ISC001", # single-line-implicit-string-concatenation
+    "TD002",  # Missing author line in TODO
+    "TD003",  # Missing issue link after TODO
+    "ERA001", # Commented-out code
+    "G004",   # f-string in logging call
+    "S101",   # Use of assert
+    "BLE001", # except Exception
+]
+allowed-confusables = ["’", " ", " "]
+
+[tool.ruff.lint.flake8-bandit]
+check-typed-exception = true
+
+[tool.ruff.lint.flake8-builtins]
+strict-checking = true
+
+[tool.ruff.lint.flake8-import-conventions]
+banned-from = ["typing"]
+
+[tool.ruff.lint.flake8-type-checking]
+quote-annotations = true
+strict = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+preview = true
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
