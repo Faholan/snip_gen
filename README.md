@@ -6,10 +6,6 @@ Generate code snippets to maximize code coverage thanks to the power of LLMs
 
 This project uses [uv](https://docs.astral.sh/uv/) for dependency management.
 
-```sh
-uv pip install -e .
-```
-
 ## Usage
 
 This utility is composed of three commands:

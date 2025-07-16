@@ -1,0 +1,45 @@
+name: Check typing and linting
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - "3.12"
+          - "3.13"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+
+      - name: Run mypy
+        run: uv run mypy snip_gen
+
+      - name: Run ruff
+        run: uv run ruff check snip_gen
+
+      - name: Run ruff format check
+        run: uv run ruff format --check snip_gen
+
+      - name: Run pre-commit hooks
+        run: uv run pre-commit run --all-files --show-diff-on-failure
+
+      - name: Check scripts
+        run: |
+          uv run snippet --help
+          uv run coverage --help
+          uv run seed --help
