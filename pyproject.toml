@@ -1,0 +1,23 @@
+[project]
+name = "snip-gen"
+version = "1.0.0"
+description = "Generate code snippets to maximize code coverage thanks to the power of LLMs"
+authors = [
+    {name = "Faholan"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "litellm (>=1.74.3,<2.0.0)"
+]
+
+[tool.poetry]
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.17.0"
+ruff = "^0.12.3"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
