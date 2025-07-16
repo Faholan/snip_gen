@@ -7,7 +7,8 @@ from .analyze_coverage import register as register_coverage
 from .gen_seed import register as register_seed
 from .gen_snippet import register as register_snippet
 
-if __name__ == "__main__":
+
+def main() -> None:
     parser = argparse.ArgumentParser(description="Generate code and analyze coverage.", prog="snip_gen")
 
     subparsers = parser.add_subparsers(help="Command to run")
@@ -39,3 +40,25 @@ if __name__ == "__main__":
     else:
         parser.print_usage()
         sys.exit(1)
+
+
+def snippet_command() -> None:
+    """Run the snippet generation command."""
+    sys.argv = [sys.argv[0], "snippet"] + sys.argv[1:]
+    main()
+
+
+def coverage_command() -> None:
+    """Run the coverage analysis command."""
+    sys.argv = [sys.argv[0], "coverage"] + sys.argv[1:]
+    main()
+
+
+def seed_command() -> None:
+    """Run the seed generation command."""
+    sys.argv = [sys.argv[0], "seed"] + sys.argv[1:]
+    main()
+
+
+if __name__ == "__main__":
+    main()
