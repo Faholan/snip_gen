@@ -11,6 +11,14 @@ dependencies = ["litellm (>=1.74.3,<2.0.0)"]
 [dependency-groups]
 dev = ["mypy>=1.17.0", "ruff>=0.12.3"]
 
+[build-system]
+requires = ["uv_build>=0.7.21,<0.8.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "snip_gen"
+module-root = ""
+
 [project.scripts]
 snippet = "snip_gen.__main__:snippet_command"
 coverage = "snip_gen.__main__:coverage_command"
