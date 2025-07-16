@@ -108,17 +108,7 @@ select = [
 ]
 ignore = [
     "COM812", # missing-trailing-comma
-    "D203",   # one-blank-line-before-class-docstring
-    "D213",   # multi-line-summary-second-line
-    # TODO: re-enable the docstring
-    "DOC201", # docstring-missing-returns
-    "ISC001", # single-line-implicit-string-concatenation
-    "TD002",  # Missing author line in TODO
-    "TD003",  # Missing issue link after TODO
-    "ERA001", # Commented-out code
     "G004",   # f-string in logging call
-    "S101",   # Use of assert
-    "BLE001", # except Exception
 ]
 allowed-confusables = ["’", " ", " "]
 
