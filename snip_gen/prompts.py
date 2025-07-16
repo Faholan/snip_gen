@@ -128,7 +128,7 @@ END GROUPS
 
 [HISTORY anyText ;] ...
 
- NETS numNets ;
+NETS numNets ;
     [- { netName
            [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
        | MUSTJOIN ( compName pinName ) }
@@ -196,13 +196,16 @@ PINS numPins ;
              [MASK maskNum]
              [SPACING minSpacing | DESIGNRULEWIDTH effectiveWidth]
                pt pt
-         |+ POLYGON layerName
+         ] ...
+         [+ POLYGON layerName
              [MASK maskNum]
              [SPACING minSpacing | DESIGNRULEWIDTH effectiveWidth]
                pt pt pt ...
-         |+ VIA viaName
+         ]...
+         [+ VIA viaName
              [MASK viaMaskNum]
-                 pt] ...
+                 pt]
+         ]...
          [+ COVER pt orient | FIXED pt orient | PLACED pt orient]
         ]...
     ; ] ...
@@ -343,6 +346,9 @@ A special wiring statement is defined as follows:
 
   ] ...
 
+
+Note: a regular or special wiring statement does not end with a semicolon.
+
 The routing points are defined as follows:
 
 { ( x y [extValue] )
@@ -352,6 +358,11 @@ The routing points are defined as follows:
     | VIRTUAL ( x y ) } } ...
 
 All points are in the form of ( x y ) where x and y are integers.
+
+The orientation of components can be one of N, S, W, E, FN, FS, FW, or FE.
+
+ROW statements can be either horizontal, in which case numY is 1 and stepY is 0,
+or  vertical, in which case numX is 1 and stepX is 0.
 """
 
 
