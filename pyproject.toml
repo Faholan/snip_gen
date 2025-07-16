@@ -8,15 +8,13 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = ["litellm (>=1.74.3,<2.0.0)"]
 
-[tool.poetry]
+[dependency-groups]
+dev = ["mypy>=1.17.0", "ruff>=0.12.3"]
 
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.17.0"
-ruff = "^0.12.3"
-
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+[project.scripts]
+snippet = "snip_gen.__main__:snippet_command"
+coverage = "snip_gen.__main__:coverage_command"
+seed = "snip_gen.__main__:seed_command"
 
 [tool.mypy]
 strict = true

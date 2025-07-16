@@ -4,10 +4,10 @@ Generate code snippets to maximize code coverage thanks to the power of LLMs
 
 ## Installation
 
-This project uses [Poetry](https://python-poetry.org/) for dependency management.
+This project uses [uv](https://docs.astral.sh/uv/) for dependency management.
 
-```bash
-poetry install
+```sh
+uv pip install -e .
 ```
 
 ## Usage
@@ -18,6 +18,8 @@ This utility is composed of three commands:
 - `coverage`: Analyze coverage data.
 - `seed`: The main command, leverage coverage data to select the files to generate
   snippets for.
+
+They can be ran by `uv run <command>`
 
 ## Customization
 
