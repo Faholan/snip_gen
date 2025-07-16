@@ -130,3 +130,9 @@ indent-style = "space"
 line-ending = "lf"
 docstring-code-format = true
 docstring-code-line-length = "dynamic"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.17.0",
+    "ruff>=0.12.3",
+]
