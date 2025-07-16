@@ -1,0 +1,40 @@
+name: Check typing and linting
+
+on:
+  push:
+    branches: [main, feat/*]
+  pull_request:
+    branches: [main, feat/*]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --dev
+
+      - name: Run mypy
+        run: uv run mypy snip_gen
+
+      - name: Run ruff
+        run: uv run ruff check snip_gen
+
+      - name: Run ruff format check
+        run: uv run ruff format --check snip_gen
+
+      - name: Check scripts
+        run: |
+          uv run snippet --help
+          uv run coverage --help
+          uv run seed --help
