@@ -962,7 +962,7 @@ wheels = [
 [[package]]
 name = "snip-gen"
 version = "1.0.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "litellm" },
 ]
