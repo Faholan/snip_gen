@@ -2,13 +2,19 @@ name: Check typing and linting
 
 on:
   push:
-    branches: [main, feat/*]
+    branches: ["*"]
   pull_request:
-    branches: [main, feat/*]
+    branches: ["*"]
 
 jobs:
   check:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - "3.12"
+          - "3.13"
+          - "3.14"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,8 +25,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version-file: "pyproject.toml"
-
+          python-version: ${{ matrix.python-version }}
       - name: Install the project
         run: uv sync --locked --all-extras --dev
 
@@ -32,6 +37,9 @@ jobs:
 
       - name: Run ruff format check
         run: uv run ruff format --check snip_gen
+
+      - name: Run pre-commit hooks
+        run: uv run pre-commit run --all-files --show-diff-on-failure
 
       - name: Check scripts
         run: |
