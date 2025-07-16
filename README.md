@@ -4,11 +4,7 @@ Generate code snippets to maximize code coverage thanks to the power of LLMs
 
 ## Installation
 
-This project uses [Poetry](https://python-poetry.org/) for dependency management.
-
-```bash
-poetry install
-```
+This project uses [uv](https://docs.astral.sh/uv/) for dependency management.
 
 ## Usage
 
