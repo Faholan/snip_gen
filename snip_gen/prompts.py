@@ -99,9 +99,7 @@ FILLS numFills ;
 
 END FILLS
 
-GCELLGRID
-    {X start DO numColumns+1 STEP space} ...
-    {Y start DO numRows+1 STEP space ;} ... ;
+[GCELLGRID {X|Y} start DO num+1 STEP space ;] ...
 
 GROUPS numGroups ;
     [- groupName [compNamePattern ... ]
@@ -288,7 +286,14 @@ In a row statement, if STEP is present, then both stepX and stepY must be presen
 
 TRACKS is a statement, not a section.
 
+Some sections do not have a semicolon at the end of each statement in the list.
+
 You cannot include mathematic operations in the DEF file.
+
+CRITICAL REQUIREMENT: RESPECT EXACTLY THE PROVIDED SYNTAX. DO NOT ADD ANYTHING ELSE.
+DO NOT ADD SEMICOLONS WHERE SEMICOLONS ARE NOT INDICATED IN THE SYNTAX.
+DO NOT ADD PARENTHESIS WHERE PARENTHESIS ARE NOT INDICATED IN THE SYNTAX.
+You can add comments to the DEF file, but they are not required.
 """
 
 
