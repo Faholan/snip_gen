@@ -29,16 +29,13 @@ The statements MUST be in the following order:
 [ DIVIDERCHAR statement ]
 [ BUSBITCHARS statement ]
 DESIGN statement
-[ TECHNOLOGY statement ]
 [ UNITS statement ]
-[ HISTORY statement ] ...
 [ PROPERTYDEFINITIONS section ]
 [ DIEAREA statement ]
 [ ROW statement ] ...
 [ TRACKS statement ] ...
 [ GCELLGRID statement ] ...
 [ VIAS statement ]
-[ STYLES statement ]
 [ NONDEFAULTRULES statement ]
 [ REGIONS statement ]
 [ COMPONENTMASKSHIFT statement ]
@@ -46,13 +43,11 @@ DESIGN statement
 [ PINS section ]
 [ PINPROPERTIES section ]
 [ BLOCKAGES section ]
-[ SLOTS section ]
 [ FILLS section ]
 [ SPECIALNETS section ]
 [ NETS section ]
 [ SCANCHAINS section ]
 [ GROUPS section ]
-[ BEGINEXT section ] ...
 END DESIGN statement
 
 The syntax of the every statement (in alphabetical order, NOT the correct order for inclusion in a design file) is as follows:
@@ -64,7 +59,6 @@ BLOCKAGES numBlockages ;
          [ + EXCEPTPGNET]
          [ + COMPONENT compName]
          [ + SPACING minSpacing | + DESIGNRULEWIDTH effectiveWidth]
-         [ + MASK maskNum]
               {RECT pt pt | POLYGON pt pt pt ...} ...
     ;] ...
     [- PLACEMENT
@@ -82,13 +76,10 @@ COMPONENTMASKSHIFT layer1 [layer2 ...] ;
 
 COMPONENTS numComps ;
     [- compName modelName
-        [+ EEQMASTER macroName]
         [+ SOURCE {NETLIST | DIST | USER | TIMING}]
         [+ {FIXED pt orient | COVER pt orient | PLACED pt orient
                | UNPLACED} ]
-        [+ MASKSHIFT shiftLayerMasks]
         [+ HALO [SOFT] left bottom right top]
-        [+ ROUTEHALO haloDist minLayer maxLayer]
         [+ WEIGHT weight]
         [+ REGION regionName]
         [+ PROPERTY {propName propVal} ...]...
@@ -101,11 +92,6 @@ DESIGN designName ;
 DIEAREA pt pt [pt] ... ;
 
 DIVIDERCHAR "character" ;
-
-BEGINEXT "tag"
-    extensionText
-
-ENDEXT
 
 FILLS numFills ;
     [- LAYER layerName [+ MASK maskNum] [+ OPC]
@@ -125,30 +111,16 @@ GROUPS numGroups ;
 
 END GROUPS
 
-[HISTORY anyText ;] ...
-
 NETS numNets ;
     [- { netName
            [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
        | MUSTJOIN ( compName pinName ) }
-       [+ SHIELDNET shieldNetName ] ...
-       [+ VPIN vpinName [LAYER layerName] pt pt
-           [PLACED pt orient | FIXED pt orient | COVER pt orient] ] ...
-       [+ SUBNET subnetName
-           [ ( {compName pinName | PIN pinName | VPIN vpinName} ) ] ...
-           [NONDEFAULTRULE rulename]
-           [regularWiring] ...] ...
-       [+ XTALK class]
        [+ NONDEFAULTRULE ruleName]
        [regularWiring] ...
        [+ SOURCE {DIST | NETLIST | TEST | TIMING | USER}]
        [+ FIXEDBUMP]
-       [+ FREQUENCY frequency]
-       [+ ORIGINAL netName]
        [+ USE {ANALOG | CLOCK | GROUND | POWER | RESET | SCAN | SIGNAL
                  | TIEOFF}]
-       [+ PATTERN {BALANCED | STEINER | TRUNK | WIREDLOGIC}]
-       [+ ESTCAP wireCapacitance]
        [+ WEIGHT weight]
        [+ PROPERTY {propName propVal} ...] ...
     ;] ...
@@ -160,7 +132,6 @@ NONDEFAULTRULES numRules ;
           [+ HARDSPACING]
           {+ LAYER layerName
                WIDTH minWidth
-               [DIAGWIDTH diagWidth]
                [SPACING minSpacing]
                [WIREEXT wireExt]
           } ...
@@ -176,16 +147,10 @@ PINS numPins ;
     [ [- pinName + NET netName]
         [+ SPECIAL]
         [+ DIRECTION {INPUT | OUTPUT | INOUT | FEEDTHRU}]
-        [+ NETEXPR "netExprPropName defaultNetName"]
         [+ SUPPLYSENSITIVITY powerPinName]
         [+ GROUNDSENSITIVITY groundPinName]
         [+ USE {SIGNAL | POWER | GROUND | CLOCK | TIEOFF | ANALOG
                   | SCAN | RESET}]
-        [+ ANTENNAPINPARTIALMETALAREA value [LAYER layerName]] ...
-        [+ ANTENNAPINPARTIALMETALSIDEAREA value [LAYER layerName]] ...
-        [+ ANTENNAPINPARTIALCUTAREA value [LAYER layerName]] ...
-        [+ ANTENNAPINDIFFAREA value [LAYER layerName]] ...
-        [+ ANTENNAMODEL {OXIDE1 | OXIDE2 | OXIDE3 | OXIDE4}] ...
         [+ ANTENNAPINGATEAREA value [LAYER layerName]] ...
         [+ ANTENNAPINMAXAREACAR value LAYER layerName] ...
         [+ ANTENNAPINMAXSIDEAREACAR value LAYER layerName] ...
@@ -196,15 +161,6 @@ PINS numPins ;
              [SPACING minSpacing | DESIGNRULEWIDTH effectiveWidth]
                pt pt
          ] ...
-         [+ POLYGON layerName
-             [MASK maskNum]
-             [SPACING minSpacing | DESIGNRULEWIDTH effectiveWidth]
-               pt pt pt ...
-         ]...
-         [+ VIA viaName
-             [MASK viaMaskNum]
-                 pt]
-         ]...
          [+ COVER pt orient | FIXED pt orient | PLACED pt orient]
         ]...
     ; ] ...
@@ -252,36 +208,18 @@ SCANCHAINS numScanChains ;
 
 END SCANCHAINS
 
-SLOTS numSlots ;
-    [- LAYER layerName
-        {RECT pt pt | POLYGON pt pt pt ... } ...
-    ;] ...
-
-END SLOTS
-
 SPECIALNETS numNets ;
     [- netName
        [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
-      [+ VOLTAGE volts]
       [specialWiring] ...
       [+ SOURCE {DIST | NETLIST | TIMING | USER}]
       [+ FIXEDBUMP]
-      [+ ORIGINAL netName]
       [+ USE {ANALOG | CLOCK | GROUND | POWER | RESET | SCAN | SIGNAL | TIEOFF}]
-      [+ PATTERN {BALANCED | STEINER | TRUNK | WIREDLOGIC}]
-      [+ ESTCAP wireCapacitance]
       [+ WEIGHT weight]
       [+ PROPERTY {propName propVal} ...] ...
     ;] ...
 
 END SPECIALNETS
-
-STYLES numStyles ;
-    {- STYLE styleNum pt pt ... ;} ...
-
-END STYLES
-
-TECHNOLOGY technologyName ;
 
 [TRACKS
     [{X | Y} start DO numtracks STEP space
@@ -304,8 +242,7 @@ VIAS numVias ;
               [+ ORIGIN xOffset yOffset]
               [+ OFFSET xBotOffset yBotOffset xTopOffset yTopOffset]
               [+ PATTERN cutPattern] ]
-       | [ + RECT layerName [+ MASK maskNum] pt pt
-                  | + POLYGON layerName [+ MASK maskNum] pt pt pt] ...]
+       | [ + RECT layerName pt pt] ...]
     ;] ...
 
 END VIAS
@@ -321,25 +258,21 @@ A regular wiring statement is defined as follows:
 
 A special wiring statement is defined as follows:
 
-[[+ COVER | + FIXED | + ROUTED | + SHIELD shieldNetName]
+[[+ COVER | + FIXED | + ROUTED]
          [+ SHAPE shapeType] [+ MASK maskNum]
-          + POLYGON layerName pt pt pt ...
-         | + RECT layerName pt pt
-         | + VIA viaName [orient] pt ...
-    |{+ COVER | + FIXED | + ROUTED | + SHIELD shieldNetName}
+          + RECT layerName pt pt
+    |{+ COVER | + FIXED | + ROUTED}
          layerName routeWidth
               [+ SHAPE
                    {RING | PADRING | BLOCKRING | STRIPE | FOLLOWPIN
                    | IOWIRE | COREWIRE | BLOCKWIRE | BLOCKAGEWIRE | FILLWIRE
                    | FILLWIREOPC | DRCFILL}]
-               [+ STYLE styleNum]
                routingPoints
          [NEW layerName routeWidth
               [+ SHAPE
                    {RING | PADRING | BLOCKRING | STRIPE | FOLLOWPIN
                    | IOWIRE | COREWIRE | BLOCKWIRE | BLOCKAGEWIRE | FILLWIRE
                    | FILLWIREOPC | DRCFILL}]
-               [+ STYLE styleNum]
                routingPoints
             ] ...
 
@@ -354,7 +287,7 @@ The routing points are defined as follows:
     {[MASK maskNum] ( x y [extValue] )
     |[MASK viaMaskNum] viaName [orient]
     |[MASK maskNum] RECT ( deltax1 deltay1 deltax2 deltay2 )
-    | VIRTUAL ( x y ) } } ...
+    } } ...
 
 All points are in the form of ( x y ) where x and y are integers.
 
