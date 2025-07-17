@@ -341,7 +341,7 @@ Please analyze the faulty DEF design, and the errors.
 Provide a corrected version of the design that fixes the error(s) while adhering strictly to ALL the requirements:
 1.  Each part of the design targets a specific construct relevant to the C++ file, try not to simplify too much the design.
 2.  Maximize the coverage of the C++ file.
-3.  No comments
+3.  Only fix the errors, do not change the valid parts of the design.
 Generate only the corrected DEF design."""
 
 

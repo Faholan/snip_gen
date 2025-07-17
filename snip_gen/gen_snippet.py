@@ -98,7 +98,7 @@ class CodeGeneratorAgent:
             lint_success, lint_stderr = verify_code(current_file, library)
 
             if lint_success:
-                target_file.symlink_to(current_file)
+                output_file.symlink_to(current_file)
                 logger.info(f"Successfully generated and verified file: {output_file}")
                 return generated_code
 
