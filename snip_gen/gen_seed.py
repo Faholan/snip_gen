@@ -9,10 +9,16 @@ import tempfile
 import typing as t
 from pathlib import Path
 
-from snip_gen import COVERAGE_MAX, DEFAULT_COVERAGE, DEFAULT_FILE_EXTENSION, MAX_FILENAME_LENGTH, MODELS
+from snip_gen import (
+    COVERAGE_MAX,
+    DEFAULT_COVERAGE,
+    DEFAULT_FILE_EXTENSION,
+    MAX_FILE_SIZE_BYTES,
+    MAX_FILENAME_LENGTH,
+    MODELS,
+)
 from snip_gen.analyze_coverage import find_low_coverage_from_json
 from snip_gen.gen_snippet import CodeGeneratorAgent
-from snip_gen.snip_gen import MAX_FILE_SIZE_BYTES
 from snip_gen.typehints import SeedGenArgs, load_coverage
 
 if t.TYPE_CHECKING:
