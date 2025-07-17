@@ -102,11 +102,10 @@ class CodeGeneratorAgent:
                 logger.info(f"Successfully generated and verified file: {output_file}")
                 return generated_code
 
-            error_summary = f"Verification failed.\nStderr:\n{lint_stderr.strip()}"
-            logger.error(f"Linting Error details:\n{error_summary}")
+            logger.error(f"Verification failed for {current_file}.")
             logger.info("Attempting to fix the lint error...")
             current_prompt = get_feedback_prompt(
-                target_filename, target_content, str(coverage), library, generated_code, error_summary
+                target_filename, target_content, str(coverage), library, generated_code, lint_stderr
             )
 
         failure_suffix = f".failed.{{}}{output_file.suffix}"

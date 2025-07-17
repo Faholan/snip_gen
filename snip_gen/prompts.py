@@ -116,7 +116,12 @@ NETS numNets ;
            [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
        | MUSTJOIN ( compName pinName ) }
        [+ NONDEFAULTRULE ruleName]
-       [regularWiring] ...
+       [{+ COVER | + FIXED | + ROUTED | + NOSHIELD}
+        layerName [TAPER | TAPERRULE ruleName] [STYLE styleNum]
+           routingPoints
+        [NEW layerName [TAPER | TAPERRULE ruleName] [STYLE styleNum]
+           routingPoints
+        ] ...] ...
        [+ SOURCE {DIST | NETLIST | TEST | TIMING | USER}]
        [+ FIXEDBUMP]
        [+ USE {ANALOG | CLOCK | GROUND | POWER | RESET | SCAN | SIGNAL
@@ -211,7 +216,24 @@ END SCANCHAINS
 SPECIALNETS numNets ;
     [- netName
        [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
-      [specialWiring] ...
+      [[+ COVER | + FIXED | + ROUTED]
+             [+ SHAPE shapeType] [+ MASK maskNum]
+              + RECT layerName pt pt
+        |{+ COVER | + FIXED | + ROUTED}
+             layerName routeWidth
+                  [+ SHAPE
+                       {RING | PADRING | BLOCKRING | STRIPE | FOLLOWPIN
+                       | IOWIRE | COREWIRE | BLOCKWIRE | BLOCKAGEWIRE | FILLWIRE
+                       | FILLWIREOPC | DRCFILL}]
+                   routingPoints
+             [NEW layerName routeWidth
+                  [+ SHAPE
+                       {RING | PADRING | BLOCKRING | STRIPE | FOLLOWPIN
+                       | IOWIRE | COREWIRE | BLOCKWIRE | BLOCKAGEWIRE | FILLWIRE
+                       | FILLWIREOPC | DRCFILL}]
+                   routingPoints
+                ]...
+      ]...
       [+ SOURCE {DIST | NETLIST | TIMING | USER}]
       [+ FIXEDBUMP]
       [+ USE {ANALOG | CLOCK | GROUND | POWER | RESET | SCAN | SIGNAL | TIEOFF}]
@@ -247,40 +269,6 @@ VIAS numVias ;
 
 END VIAS
 
-A regular wiring statement is defined as follows:
-
-{+ COVER | + FIXED | + ROUTED | + NOSHIELD}
-    layerName [TAPER | TAPERRULE ruleName] [STYLE styleNum]
-       routingPoints
-    [NEW layerName [TAPER | TAPERRULE ruleName] [STYLE styleNum]
-       routingPoints
-    ] ...
-
-A special wiring statement is defined as follows:
-
-[[+ COVER | + FIXED | + ROUTED]
-         [+ SHAPE shapeType] [+ MASK maskNum]
-          + RECT layerName pt pt
-    |{+ COVER | + FIXED | + ROUTED}
-         layerName routeWidth
-              [+ SHAPE
-                   {RING | PADRING | BLOCKRING | STRIPE | FOLLOWPIN
-                   | IOWIRE | COREWIRE | BLOCKWIRE | BLOCKAGEWIRE | FILLWIRE
-                   | FILLWIREOPC | DRCFILL}]
-               routingPoints
-         [NEW layerName routeWidth
-              [+ SHAPE
-                   {RING | PADRING | BLOCKRING | STRIPE | FOLLOWPIN
-                   | IOWIRE | COREWIRE | BLOCKWIRE | BLOCKAGEWIRE | FILLWIRE
-                   | FILLWIREOPC | DRCFILL}]
-               routingPoints
-            ] ...
-
-  ] ...
-
-
-Note: a regular or special wiring statement does not end with a semicolon.
-
 The routing points are defined as follows:
 
 { ( x y [extValue] )
@@ -294,7 +282,13 @@ All points are in the form of ( x y ) where x and y are integers.
 The orientation of components can be one of N, S, W, E, FN, FS, FW, or FE.
 
 ROW statements can be either horizontal, in which case numY is 1 and stepY is 0,
-or  vertical, in which case numX is 1 and stepX is 0.
+or vertical, in which case numX is 1 and stepX is 0.
+
+In a row statement, if STEP is present, then both stepX and stepY must be present.
+
+TRACKS is a statement, not a section.
+
+You cannot include mathematic operations in the DEF file.
 """
 
 
