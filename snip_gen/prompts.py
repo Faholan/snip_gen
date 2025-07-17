@@ -52,6 +52,8 @@ END DESIGN statement
 
 The syntax of the every statement (in alphabetical order, NOT the correct order for inclusion in a design file) is as follows:
 
+YOU MUST RESPECT IT EXACTLY, DO NOT ADD ANYTHING ELSE. RESPECT THE EXACT SYNTAX.
+
 BLOCKAGES numBlockages ;
     [- LAYER layerName
          [ + SLOTS | + FILLS]
