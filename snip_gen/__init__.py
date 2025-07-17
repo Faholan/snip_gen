@@ -26,6 +26,8 @@ LITELLM_MODELS: dict[str, str] = {
 
 MODELS: list[str] = list(LITELLM_MODELS.keys())
 
+MAX_FILE_SIZE_BYTES: int = 100 * 1024  # 100 KB
+
 MAX_ATTEMPTS = 6  # Maximum number of attempts to invoke the LLM before giving up.
 # In case we hit the per-minute rate limit, we will wait for 60 seconds before retrying.
 BASE_WAIT = 60  # Base of the exponential backoff in seconds

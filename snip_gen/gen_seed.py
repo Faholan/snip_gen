@@ -12,6 +12,7 @@ from pathlib import Path
 from snip_gen import COVERAGE_MAX, DEFAULT_COVERAGE, DEFAULT_FILE_EXTENSION, MAX_FILENAME_LENGTH, MODELS
 from snip_gen.analyze_coverage import find_low_coverage_from_json
 from snip_gen.gen_snippet import CodeGeneratorAgent
+from snip_gen.snip_gen import MAX_FILE_SIZE_BYTES
 from snip_gen.typehints import SeedGenArgs, load_coverage
 
 if t.TYPE_CHECKING:
@@ -178,6 +179,14 @@ def generate_files(
 
         if not file_path.exists():
             logger.error(f"Target file '{file_path}' not found. Skipping.")
+            failure += 1
+            continue
+
+        if file_path.stat().st_size > MAX_FILE_SIZE_BYTES:
+            logger.error(
+                f"File '{file_path}' exceeds the maximum size of {MAX_FILE_SIZE_BYTES / 1024:.2f} KB. "
+                "Skipping generation for this file."
+            )
             failure += 1
             continue
 
