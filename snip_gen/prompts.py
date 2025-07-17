@@ -293,7 +293,7 @@ You cannot include mathematic operations in the DEF file.
 CRITICAL REQUIREMENT: RESPECT EXACTLY THE PROVIDED SYNTAX. DO NOT ADD ANYTHING ELSE.
 DO NOT ADD SEMICOLONS WHERE SEMICOLONS ARE NOT INDICATED IN THE SYNTAX.
 DO NOT ADD PARENTHESIS WHERE PARENTHESIS ARE NOT INDICATED IN THE SYNTAX.
-You can add comments to the DEF file, but they are not required.
+You can add comments to the DEF file, that start with #, but they are not required.
 """
 
 
