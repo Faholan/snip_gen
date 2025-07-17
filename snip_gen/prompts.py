@@ -109,8 +109,7 @@ ENDEXT
 
 FILLS numFills ;
     [- LAYER layerName [+ MASK maskNum] [+ OPC]
-        {RECT pt pt | POLYGON pt pt pt ...} ... ;] ...
-    [- VIA viaName [+ MASK viaMaskNum] [+ OPC] pt ... ;] ...
+        {RECT pt pt} ... ;] ...
 
 END FILLS
 
