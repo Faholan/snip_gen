@@ -146,7 +146,11 @@ def handle_function(args: SeedGenArgs, agent: CodeGeneratorAgent, coverage_data:
             logger.info("Calling agent with temporary snippet file")
 
             generated_code = agent.generate_code(
-                target_file=Path(f.name), output_file=output_file, library=args.library, coverage={}
+                Path(f.name),
+                args.library,
+                output_file,
+                output_file,
+                {},
             )
 
         if generated_code:
@@ -197,18 +201,23 @@ def generate_files(
             continue
 
         output_file = args.output_dir / file_path.with_suffix(args.extension).name
+        final_file = args.final_output_dir / file_path.with_suffix(args.extension).name
 
-        if output_file.exists():
-            logger.warning(f"Output file '{output_file}' already exists. Skipping generation for this file.")
+        if final_file.exists():
+            logger.warning(f"Final file '{final_file}' already exists. Skipping generation for this file.")
             continue
 
-        logger.info(f"Attempting to generate design for '{file_path}' -> '{output_file}'")
+        logger.info(f"Attempting to generate design for '{file_path}' -> '{output_file}' -> '{final_file}'")
 
         generated_code = agent.generate_code(
-            target_file=file_path, library=args.library, output_file=output_file, coverage=coverage_details["lines"]
+            file_path,
+            args.library,
+            output_file,
+            final_file,
+            coverage_details["lines"],
         )
         if generated_code:
-            logger.info(f"Successfully generated valid design for '{file_path}'. Saved to '{output_file}'.")
+            logger.info(f"Successfully generated valid design for '{file_path}'. Saved to '{final_file}'.")
             success += 1
         else:
             logger.error(f"Failed to generate a design for '{file_path}' after {args.max_retries + 1} attempts.")
@@ -292,6 +301,7 @@ def register(parser: argparse.ArgumentParser) -> None:
         help="Maximum number of attempts to fix errors for each snippet (default: 3).",
     )
     parser.add_argument("--output-dir", required=True, type=Path, help="Directory to save the generated files.")
+    parser.add_argument("--final-output-dir", type=Path, help="Directory to save the validated files.")
     parser.add_argument(
         "--target",
         choices=["file", "function"],
@@ -325,6 +335,7 @@ def validate_args(arguments: argparse.Namespace) -> SeedGenArgs | None:
         min_threshold=arguments.min_threshold,
         fastcov_json=Path(arguments.fastcov_json),
         output_dir=Path(arguments.output_dir),
+        final_output_dir=Path(arguments.final_output_dir or arguments.output_dir),
         model=arguments.model,
         max_retries=arguments.max_retries,
         target=arguments.target,

@@ -5,6 +5,7 @@ import logging
 import sys
 import typing as t
 from pathlib import Path
+from shutil import copy2
 
 from snip_gen import MODELS
 from snip_gen.llm_handler import LLMHandler
@@ -50,7 +51,12 @@ class CodeGeneratorAgent:
         logger.debug(f"Max retries for fixing lint errors: {self.max_retries}")
 
     def generate_code(
-        self, target_file: Path, library: list[Path], output_file: Path, coverage: dict[int, int]
+        self,
+        target_file: Path,
+        library: list[Path],
+        output_file: Path,
+        final_file: Path,
+        coverage: dict[int, int],
     ) -> str | None:
         """Generate and refine code until it passes linting.
 
@@ -59,7 +65,8 @@ class CodeGeneratorAgent:
         Args:
             target_file (Path): The path to the target file to maximize coverage for.
             library (list[Path]): List of library files to be included in the generation process.
-            output_file (Path): The path where the generated file will be saved.
+            output_file (Path): The path where the generated files will be saved.
+            final_file (Path): The path where the final valid file will be saved.
             coverage (dict[int, int]): Coverage data to be used in the generation process.
 
         Returns:
@@ -98,8 +105,8 @@ class CodeGeneratorAgent:
             lint_success, lint_stderr = verify_code(current_file, library)
 
             if lint_success:
-                output_file.symlink_to(current_file)
-                logger.info(f"Successfully generated and verified file: {output_file}")
+                copy2(current_file, final_file)
+                logger.info(f"Successfully generated and verified file: {final_file}")
                 return generated_code
 
             logger.error(f"Verification failed for {current_file}.")
@@ -186,7 +193,11 @@ def main(arguments: argparse.Namespace) -> None:
 
     agent = CodeGeneratorAgent(model_type=args.model, max_retries=args.max_retries)
     successful_code = agent.generate_code(
-        target_file=args.target, output_file=args.output, coverage={}, library=args.library
+        args.target,
+        args.library,
+        args.output,
+        args.output,
+        {},
     )
 
     if successful_code:

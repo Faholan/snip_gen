@@ -118,6 +118,7 @@ class SeedGenArgs:
         min_threshold (float): Minimum threshold for coverage to be considered.
         fastcov_json (Path): Path to the fastcov JSON file containing coverage data.
         output_dir (Path): Directory where generated seeds will be saved.
+        final_output_dir (Path): Directory where valid seeds will be saved.
         model (MODEL_HINT): Model to use for generating seeds.
         max_retries (int): Maximum number of retries for seed generation.
         target (Literal["file", "function"]): Target type for seed generation.
@@ -129,6 +130,7 @@ class SeedGenArgs:
     min_threshold: float
     fastcov_json: Path
     output_dir: Path
+    final_output_dir: Path
     model: "MODEL_HINT"
     max_retries: int
     target: t.Literal["file", "function"]
