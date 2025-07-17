@@ -144,7 +144,7 @@ NONDEFAULTRULES numRules ;
 END NONDEFAULTRULES
 
 PINS numPins ;
-    [ [- pinName + NET netName]
+    [ - pinName + NET netName
         [+ SPECIAL]
         [+ DIRECTION {INPUT | OUTPUT | INOUT | FEEDTHRU}]
         [+ SUPPLYSENSITIVITY powerPinName]
