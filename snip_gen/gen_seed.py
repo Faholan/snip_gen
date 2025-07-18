@@ -339,7 +339,7 @@ def validate_args(arguments: argparse.Namespace) -> SeedGenArgs | None:
         model=arguments.model,
         max_retries=arguments.max_retries,
         target=arguments.target,
-        library=[Path(f) for f in arguments.library],
+        library=[Path(f) for f in arguments.library or []],
         extension=arguments.extension,
     )
 

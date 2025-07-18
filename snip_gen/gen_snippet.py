@@ -161,9 +161,9 @@ def validate_args(arguments: argparse.Namespace) -> SnippetGenArgs | None:
     """
     args = SnippetGenArgs(
         model=arguments.model,
-        target=arguments.target,
-        output=arguments.output,
-        library=[Path(f) for f in arguments.library],
+        target=Path(arguments.target),
+        output=Path(arguments.output),
+        library=[Path(f) for f in arguments.library or []],
         max_retries=arguments.max_retries,
     )
 

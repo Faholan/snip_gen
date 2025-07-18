@@ -1,7 +1,7 @@
 [project]
 authors = [{ name = "Faholan" }, { name = "toby-bro" }]
 name = "snip-gen"
-version = "1.0.1"
+version = "1.1.0"
 description = "Generate code snippets to maximize code coverage thanks to the power of LLMs"
 license = { text = "MIT" }
 readme = "README.md"
@@ -11,8 +11,8 @@ dependencies = ["litellm (>=1.74.3,<2.0.0)"]
 [dependency-groups]
 dev = [
     "mypy>=1.17.0",
- "pre-commit>=4.2.0",
- "ruff>=0.12.3",
+    "pre-commit>=4.2.0",
+    "ruff>=0.12.3",
 ]
 
 [build-system]
@@ -27,6 +27,7 @@ module-root = ""
 snippet = "snip_gen.__main__:snippet_command"
 coverage = "snip_gen.__main__:coverage_command"
 seed = "snip_gen.__main__:seed_command"
+verify = "snip_gen.__main__:verify_command"
 
 [tool.mypy]
 strict = true

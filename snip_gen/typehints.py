@@ -170,3 +170,16 @@ class SnippetGenArgs:
     output: Path
     library: list[Path]
     max_retries: int
+
+
+@dataclass(slots=True)
+class VerifyArgs:
+    """Arguments for program verification.
+
+    Attributes:
+        file (Path): File to verify.
+        library (list[Path]): List of library paths required for verification.
+    """
+
+    file: Path
+    library: list[Path]

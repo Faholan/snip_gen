@@ -6,6 +6,7 @@ import sys
 from .analyze_coverage import register as register_coverage
 from .gen_seed import register as register_seed
 from .gen_snippet import register as register_snippet
+from .verify_code import register as register_verify
 
 
 def main(args: list[str] | None = None) -> None:
@@ -29,6 +30,9 @@ def main(args: list[str] | None = None) -> None:
             help="Handle code seed generation",
         )
     )
+    register_verify(
+        subparsers.add_parser("verify", description="Verify a program against a library.", help="Verify a program")
+    )
     parsed_args = parser.parse_args(args)
     if hasattr(parsed_args, "func"):
         parsed_args.func(parsed_args)
@@ -50,6 +54,11 @@ def coverage_command() -> None:
 def seed_command() -> None:
     """Run the seed generation command."""
     main(["seed", *sys.argv[1:]])
+
+
+def verify_command() -> None:
+    """Run the code verification command."""
+    main(["verify", *sys.argv[1:]])
 
 
 if __name__ == "__main__":
