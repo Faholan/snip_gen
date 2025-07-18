@@ -112,9 +112,8 @@ GROUPS numGroups ;
 END GROUPS
 
 NETS numNets ;
-    [- { netName
+    [- netName
            [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
-       | MUSTJOIN ( compName pinName ) }
        [+ NONDEFAULTRULE ruleName]
        [{+ COVER | + FIXED | + ROUTED | + NOSHIELD}
         layerName [TAPER | TAPERRULE ruleName] [STYLE styleNum]
