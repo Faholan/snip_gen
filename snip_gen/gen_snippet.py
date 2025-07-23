@@ -101,7 +101,9 @@ class CodeGeneratorAgent:
                 current_prompt = initial_prompt
                 continue
 
+            logger.info("Fixing the generated code...")
             fixed_code = fix_code(generated_code)
+            logger.info("Verifying the fixed code...")
 
             write_code(current_file, fixed_code)
 
