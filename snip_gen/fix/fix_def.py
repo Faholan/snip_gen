@@ -8,9 +8,10 @@ REPLACEMENTS = [
         "",
     ),
     (  # Fiw bad UNITS definition
-        re.compile(r"UNITS\s*?(?:DATABASE|DISTANCE)\s*?(?:MICRONS)?\s*?(\d+)\s*?;?(?:\s*END UNITS)?", re.IGNORECASE),
+        re.compile(r"UNITS\s*?(?:DATABASE)?\s*?(?:MICRONS)?\s*?(\d+)\s*?;?", re.IGNORECASE),
         r"UNITS DISTANCE MICRONS \1;",
     ),
+    (re.compile(r"END UNITS"), ""),
     (  # Fix bad block definitions missing a semicolon
         re.compile(
             r"(COMPONENTS|FILLS|GROUPS|NETS|NONDEFAULTRULES|PINS|PINPROPERTIES|PROPERTYDEFINITIONS|REGIONS|SCANCHAINS|SPECIALNETS|VIAS)\s*?(\d)\s*?$",
