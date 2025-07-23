@@ -46,7 +46,6 @@ DESIGN statement
 [ FILLS section ]
 [ SPECIALNETS section ]
 [ NETS section ]
-[ SCANCHAINS section ]
 [ GROUPS section ]
 END DESIGN statement
 

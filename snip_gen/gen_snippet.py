@@ -8,6 +8,7 @@ from pathlib import Path
 from shutil import copy2
 
 from snip_gen import MODELS
+from snip_gen.fix import fix_code
 from snip_gen.llm_handler import LLMHandler
 from snip_gen.prompts import get_feedback_prompt, get_initial_prompt, get_system_prompts
 from snip_gen.typehints import SnippetGenArgs
@@ -100,19 +101,21 @@ class CodeGeneratorAgent:
                 current_prompt = initial_prompt
                 continue
 
-            write_code(current_file, generated_code)
+            fixed_code = fix_code(generated_code)
+
+            write_code(current_file, fixed_code)
 
             lint_success, lint_stderr = verify_code(current_file, library)
 
             if lint_success:
                 copy2(current_file, final_file)
                 logger.info(f"Successfully generated and verified file: {final_file}")
-                return generated_code
+                return fixed_code
 
             logger.error(f"Verification failed for {current_file}.")
             logger.info("Attempting to fix the lint error...")
             current_prompt = get_feedback_prompt(
-                target_filename, target_content, str(coverage), library, generated_code, lint_stderr
+                target_filename, target_content, str(coverage), library, fixed_code, lint_stderr
             )
 
         failure_suffix = f".failed.{{}}{output_file.suffix}"
