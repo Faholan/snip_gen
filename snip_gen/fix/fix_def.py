@@ -105,6 +105,10 @@ REPLACEMENTS = [
         re.compile(r"\bMY90\b"),
         "FE",
     ),
+    (
+        re.compile(r"^(\s*NETS.*)\+\s*PIN\s+\w+(.*END NETS)", re.DOTALL | re.MULTILINE),
+        r"\1 \2",  # Remove wrong PIN definition in NETS
+    ),
 ]
 
 
