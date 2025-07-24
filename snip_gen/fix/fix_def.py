@@ -2,7 +2,12 @@
 
 import re
 
-REPLACEMENTS = [
+BLOCK_RE = (
+    "COMPONENTS|FILLS|GROUPS|NETS|NONDEFAULTRULES|PINS|PINPROPERTIES|"
+    "PROPERTYDEFINITIONS|REGIONS|SCANCHAINS|SPECIALNETS|VIAS"
+)
+
+REPLACEMENTS: list[tuple[re.Pattern[str], str]] = [
     (
         re.compile(r"#.*?$", re.MULTILINE),  # Remove comments
         "",
@@ -14,7 +19,7 @@ REPLACEMENTS = [
     (re.compile(r"END UNITS"), ""),
     (  # Fix bad block definitions missing a semicolon
         re.compile(
-            r"^\s*(COMPONENTS|FILLS|GROUPS|NETS|NONDEFAULTRULES|PINS|PINPROPERTIES|PROPERTYDEFINITIONS|REGIONS|SCANCHAINS|SPECIALNETS|VIAS)\s*?(\d)\s*?$",
+            rf"^\s*({BLOCK_RE})\s*?(\d)\s*?$",
             re.MULTILINE,
         ),
         r"\1 \2 ;",
@@ -108,6 +113,22 @@ REPLACEMENTS = [
     (
         re.compile(r"^(\s*NETS.*)\+\s*PIN\s+\w+(.*END NETS)", re.DOTALL | re.MULTILINE),
         r"\1 \2",  # Remove wrong PIN definition in NETS
+    ),
+    (re.compile(r"(^\s*VIAS.*^\s*-[\w\s()]*)$(\s*(?:-.*)?END VIAS)", re.DOTALL | re.MULTILINE), r"\1 ; \2"),
+    (
+        re.compile(r"\b([()])"),
+        r" \1",  # Add space before parentheses
+    ),
+    (
+        re.compile(r"([()])\b"),
+        r"\1 ",  # Add space before parentheses
+    ),
+    (
+        re.compile(
+            rf"^\s*({BLOCK_RE})(?!.*END \1)(.*^\s*(?={BLOCK_RE}))",
+            re.DOTALL | re.MULTILINE,
+        ),
+        r"\1\2END \1\n",
     ),
 ]
 
