@@ -55,7 +55,7 @@ REPLACEMENTS = [
     ),
     (
         re.compile(r"^\s*ROW\s+(\w+)\s+(\w+)\s+\((\d+)\s+(\d+)\s*\)?", re.MULTILINE),
-        r"ROW \1 \3 \4 \5",
+        r"ROW \1 \2 \3 \4",
     ),  # Fix issue where generated ROW have parentheses around coordinates
     (
         re.compile(r"^\s*(ROW\s+\w+\s+\w+\s+\d+\s+\d+\s+\w+\s+DO\s+\d+\s+BY\s+\d+\s+STEP\s+\d+\s+);", re.MULTILINE),
