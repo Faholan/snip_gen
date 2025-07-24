@@ -88,6 +88,8 @@ class CodeGeneratorAgent:
 
         current_prompt = initial_prompt
 
+        no_file = []
+
         for attempt in range(self.max_retries + 1):
             current_file = output_file.with_suffix(f".{attempt}{output_file.suffix}")
 
@@ -97,6 +99,7 @@ class CodeGeneratorAgent:
             generated_code = self.llm_handler.invoke_llm(current_prompt, *system_prompts)
 
             if not generated_code.strip():
+                no_file.append(attempt)
                 logger.warning("LLM returned empty code. Retrying with initial prompt.")
                 current_prompt = initial_prompt
                 continue
@@ -127,6 +130,8 @@ class CodeGeneratorAgent:
         )
 
         for attempt in range(self.max_retries + 1):
+            if attempt in no_file:
+                continue
             current_file = output_file.with_suffix(f".{attempt}{output_file.suffix}")
             current_file.rename(output_file.with_suffix(failure_suffix.format(attempt)))
 
