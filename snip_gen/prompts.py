@@ -112,7 +112,7 @@ END GROUPS
 
 NETS numNets ;
     [- netName
-           [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
+           [ ( {compName pinName | PIN pinName} ) ] ...
        [+ NONDEFAULTRULE ruleName]
        [{+ COVER | + FIXED | + ROUTED | + NOSHIELD}
         layerName [TAPER | TAPERRULE ruleName] [STYLE styleNum]
@@ -209,7 +209,7 @@ END SCANCHAINS
 
 SPECIALNETS numNets ;
     [- netName
-       [ ( {compName pinName | PIN pinName} [+ SYNTHESIZED] ) ] ...
+       [ ( {compName pinName | PIN pinName} ) ] ...
       [[+ COVER | + FIXED | + ROUTED]
              [+ SHAPE shapeType] [+ MASK maskNum]
               + RECT layerName pt pt
