@@ -8,6 +8,8 @@ from snip_gen import BASE_WAIT, CODEBLOCK_STRIPPED_PREFIX, EXPONENTIAL_FACTOR, L
 
 if t.TYPE_CHECKING:
     import litellm
+    import litellm.types
+    import litellm.types.utils
 
     from snip_gen import MODEL_HINT
 else:
@@ -73,6 +75,12 @@ class LLMHandler:
             logger.debug(f"Attempt {attempt + 1} to invoke LLM ({self.model_name}) via LiteLLM...")
             try:
                 response = litellm.completion(model=self.model_name, messages=messages)
+                if t.TYPE_CHECKING:
+                    assert isinstance(response, litellm.types.utils.ModelResponse)
+                    assert isinstance(response.choices, list)
+                    assert len(response.choices) > 0
+                    assert isinstance(response.choices[0], litellm.types.utils.Choices)
+
             except litellm.exceptions.RateLimitError:
                 logger.warning(f"Rate limit error on attempt {attempt + 1}")
 
